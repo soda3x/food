@@ -54,7 +54,7 @@ export default function Home() {
       </div>
 
       <div className="p-10 items-center text-center">
-        <h3 className="italic text-stone-800" onClick={() => 'https://bradleynewman.dev'}>Go to bradleynewman.dev</h3>
+        <a className="italic text-stone-800" href="https://www.bradleynewman.dev">Go to bradleynewman.dev</a>
       </div>
 
     </main >
