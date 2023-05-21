@@ -15,7 +15,7 @@ const nextConfig = {
 
 `npm i` then run `npm run start`
 
-See `server/README.md` for information on using the choices API.
+See [this repo](https://github.com/soda3x/fdmm-server) for the server component.
 
 
 
