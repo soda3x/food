@@ -12,7 +12,9 @@ export default function Home() {
     if (process.env.REACT_APP_SERVERLESS == "true") {
       getDecision().then(decision => {
         setStandardChoice(decision.get('standard')!);
-        setWooliesChoice(decision.get('woolies')!);
+        if (decision.get('woolies') != null) {
+          setWooliesChoice(decision.get('woolies')!);
+        }
       });
     } else {
       fetch(process.env.REACT_APP_FDMM_ROUTE!)
@@ -29,24 +31,38 @@ export default function Home() {
     }
   }, [])
 
-  const title = "text-stone-800 tracking-tighter uppercase font-black text-5xl";
-  const tagline = "text-stone-600 text-2xl tracking-tight lowercase";
-  const emphasisText = "text-white bg-red-500 tracking-tighter font-black text-3xl italic";
-  const bodyText = "lowercase tracking-tight text-stone-800 text-xl";
+  const titleStyle: string = "text-stone-800 tracking-tighter uppercase font-black text-5xl";
+  const taglineStyle: string = "text-stone-600 text-2xl tracking-tight lowercase";
+  const emphasisTextStyle: string = "text-white bg-red-500 tracking-tighter font-black text-3xl italic";
+  const bodyTextStyle: string = "lowercase tracking-tight text-stone-800 text-xl";
+  const bodyStyle: string = "max-w-md border-2 border-stone-800 bg-white p-10";
+
+  function createBodyText() {
+    if (wooliesChoice != 'Loading...') {
+      return (
+        <div className={bodyStyle}>
+          <h1 className={bodyTextStyle}>You&apos;re going to <span className={emphasisTextStyle}>{standardChoice}</span> for lunch, unless you need to go to woolies.</h1>
+          <h1 className={bodyTextStyle}>If you need to go to woolies, you&apos;re going to <span className={emphasisTextStyle}>{wooliesChoice}</span></h1>
+        </div>
+      )
+    }
+    return (
+      <div className={bodyStyle}>
+        <h1 className={bodyTextStyle}>You&apos;re going to <span className={emphasisTextStyle}>{standardChoice}</span> for lunch.</h1>
+      </div>
+    )
+  }
 
   return (
     <main className="flex min-h-screen flex-col items-center p-10 bg-yellow-200">
 
       <div className="text-center">
-        <h1 className={title}>Food Decision Making Machine</h1>
-        <h2 className={tagline}>{getTagline()}</h2>
+        <h1 className={titleStyle}>Food Decision Making Machine</h1>
+        <h2 className={taglineStyle}>{getTagline()}</h2>
       </div>
 
       <div className="flex-col items-center text-center p-10">
-        <div className="max-w-md border-2 border-stone-800 bg-white p-10">
-          <h1 className={bodyText}>You&apos;re going to <span className={emphasisText}>{standardChoice}</span> for lunch, unless you need to go to woolies.</h1>
-          <h1 className={bodyText}>If you need to go to woolies, you&apos;re going to <span className={emphasisText}>{wooliesChoice}</span></h1>
-        </div>
+        {createBodyText()}
       </div>
 
       <div className="p-8 items-center">

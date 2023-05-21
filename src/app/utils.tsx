@@ -21,7 +21,12 @@ export function getTagline(): string {
         `Conduit pods`,
         `Bitbucket proxy is down again, brad run the macro`,
         `I won't be mad, just give me my jacket back!`,
-        `Why would someone STEAL a jacket?!`
+        `Why would someone STEAL a jacket?!`,
+        `s**t is the opposite of taste`,
+        `mum said its my turn to go on a costco run with rhys`,
+        `keep in touch with yourself`,
+        `s**t pie`,
+        `haydens social club IOU is larger than Einstein's IQ`
     ]
     const randomIndex = Math.floor(Math.random() * taglines.length);
     if (day == 'Hope you\'re not working today...') {
@@ -57,13 +62,11 @@ export async function getDecision(): Promise<Map<string, string>> {
     const wooliesChoices: string = await fetchFileContents(process.env.REACT_APP_CHOICES_WOOLIES_URL!);
     choices = choices + '\n' + wooliesChoices
     if (getHumorousDayName() == 'Catalina day') {
-        res.set('standard', 'Catalina (let me eat ya)')
-        res.set('woolies', 'nice try - still Catalina')
+        res.set('standard', 'Catalina (let me eat ya)');
     } else {
-        res.set('standard', choose(choices, '\n'))
-        res.set('woolies', choose(wooliesChoices, '\n'))
-        while (res.get('standard') == res.get('woolies')) {
-            res.set('woolies', choose(wooliesChoices, '\n'))
+        res.set('standard', choose(choices, '\n'));
+        if (!wooliesChoices.includes(res.get('standard')!)) {
+            res.set('woolies', choose(wooliesChoices, '\n'));
         }
     }
     return res;
