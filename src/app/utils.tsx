@@ -1,3 +1,5 @@
+import { choose, fetchFileContents } from "choose-for-me";
+
 export function getTagline(): string {
     const day = getHumorousDayName()
     const taglines: string[] = [
@@ -47,4 +49,22 @@ export function getHumorousDayName(): string {
         default:
             return 'Hope you\'re not working today...';
     }
+}
+
+export async function getDecision(): Promise<Map<string, string>> {
+    let res: Map<string, string> = new Map<string, string>();
+    let choices: string = await fetchFileContents(process.env.REACT_APP_CHOICES_URL!);
+    const wooliesChoices: string = await fetchFileContents(process.env.REACT_APP_CHOICES_WOOLIES_URL!);
+    choices = choices + '\n' + wooliesChoices
+    if (getHumorousDayName() == 'Catalina day') {
+        res.set('standard', 'Catalina (let me eat ya)')
+        res.set('woolies', 'nice try - still Catalina')
+    } else {
+        res.set('standard', choose(choices, '\n'))
+        res.set('woolies', choose(wooliesChoices, '\n'))
+        while (res.get('standard') == res.get('woolies')) {
+            res.set('woolies', choose(wooliesChoices, '\n'))
+        }
+    }
+    return res;
 }

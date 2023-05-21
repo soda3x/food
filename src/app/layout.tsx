@@ -5,7 +5,7 @@ const inter = Inter({ subsets: ['latin'] })
 
 export const metadata = {
   title: '🍔🍟 Food Decision Making Machine',
-  description: 'What food should I get for lunch in Mawson Lakes?',
+  description: 'What should we get for lunch in Mawson Lakes?',
 }
 
 export default function RootLayout({
