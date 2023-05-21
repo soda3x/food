@@ -1,7 +1,6 @@
 'use client';
 import { FancyButton } from './components/FancyButton';
-import { getHumorousDayName } from './utils';
-import { getTagline } from './utils';
+import { getDecision, getHumorousDayName, getTagline } from './utils';
 import { useState, useEffect } from 'react';
 
 export default function Home() {
@@ -10,17 +9,24 @@ export default function Home() {
   let [wooliesChoice, setWooliesChoice] = useState("Loading...");
 
   useEffect(() => {
-    fetch(process.env.REACT_APP_FDMM_ROUTE!)
-      .then(response => response.json())
-      .then(data => {
-        if (getHumorousDayName() == 'Catalina day') {
-          setStandardChoice('Catalina (let me eat ya)')
-          setWooliesChoice('nice try - still Catalina')
-        } else {
-          setStandardChoice(data.choices.standard)
-          setWooliesChoice(data.choices.woolies)
-        }
-      })
+    if (process.env.REACT_APP_SERVERLESS == "true") {
+      getDecision().then(decision => {
+        setStandardChoice(decision.get('standard')!);
+        setWooliesChoice(decision.get('woolies')!);
+      });
+    } else {
+      fetch(process.env.REACT_APP_FDMM_ROUTE!)
+        .then(response => response.json())
+        .then(data => {
+          if (getHumorousDayName() == 'Catalina day') {
+            setStandardChoice('Catalina (let me eat ya)');
+            setWooliesChoice('nice try - still Catalina');
+          } else {
+            setStandardChoice(data.choices.standard);
+            setWooliesChoice(data.choices.woolies);
+          }
+        })
+    }
   }, [])
 
   const title = "text-stone-800 tracking-tighter uppercase font-black text-5xl";
@@ -45,6 +51,10 @@ export default function Home() {
 
       <div className="p-8 items-center">
         <FancyButton text="Veto" onClick={() => window.location.reload()} />
+      </div>
+
+      <div className="p-10 items-center text-center">
+        <h3 className="italic text-stone-800" onClick={() => 'https://bradleynewman.dev'}>Go to bradleynewman.dev</h3>
       </div>
 
     </main >
