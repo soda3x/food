@@ -1,5 +1,6 @@
 Happy %DAY%!, Wow, as if it's already %DAY%
-Hooray for %DAY%!, What are we eating on this fine %DAY%?
+Hooray for %DAY%!
+What are we eating on this fine %DAY%?
 The Rat Dog better not have brought lunch on this historic %DAY%...
 >python food.py -w
 Are the towels on the Titanic wet?
