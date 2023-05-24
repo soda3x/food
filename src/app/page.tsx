@@ -5,6 +5,12 @@ import { useState, useEffect } from 'react';
 
 export default function Home() {
 
+  const titleStyle: string = "text-stone-800 tracking-tighter uppercase font-black text-5xl";
+  const taglineStyle: string = "text-stone-600 text-2xl tracking-tight lowercase";
+  const emphasisTextStyle: string = "text-white bg-red-500 tracking-tighter font-black text-3xl italic";
+  const bodyTextStyle: string = "lowercase tracking-tight text-stone-800 text-xl";
+  const bodyStyle: string = "max-w-md border-2 border-stone-800 bg-white p-10";
+
   let [standardChoice, setStandardChoice] = useState("Deciding...");
   let [wooliesChoice, setWooliesChoice] = useState("Deciding...");
   let [tagline, setTagline] = useState("Loading...")
@@ -34,26 +40,29 @@ export default function Home() {
     }
   }, [])
 
-  const titleStyle: string = "text-stone-800 tracking-tighter uppercase font-black text-5xl";
-  const taglineStyle: string = "text-stone-600 text-2xl tracking-tight lowercase";
-  const emphasisTextStyle: string = "text-white bg-red-500 tracking-tighter font-black text-3xl italic";
-  const bodyTextStyle: string = "lowercase tracking-tight text-stone-800 text-xl";
-  const bodyStyle: string = "max-w-md border-2 border-stone-800 bg-white p-10";
-
   function createBodyText() {
-    if (wooliesChoice != 'Deciding...') {
+    if (getHumorousDayName() == 'Catalina day') {
       return (
         <div className={bodyStyle}>
-          <h1 className={bodyTextStyle}>You&apos;re going to <span className={emphasisTextStyle}>{standardChoice}</span> for lunch, unless you need to go to woolies.</h1>
-          <h1 className={bodyTextStyle}>If you need to go to woolies, you&apos;re going to <span className={emphasisTextStyle}>{wooliesChoice}</span></h1>
+          <h1 className={bodyTextStyle}>You&apos;re going to <span className={emphasisTextStyle}>Catalina (let me eat ya)</span> for lunch, unless it&apos;s closed.</h1>
+          <h1 className={bodyTextStyle}>If it&apos;s closed, you&apos;re going to <span className={emphasisTextStyle}>{standardChoice}</span></h1>
+        </div>
+      )
+    } else {
+      if (wooliesChoice != 'Deciding...') {
+        return (
+          <div className={bodyStyle}>
+            <h1 className={bodyTextStyle}>You&apos;re going to <span className={emphasisTextStyle}>{standardChoice}</span> for lunch, unless you need to go to woolies.</h1>
+            <h1 className={bodyTextStyle}>If you need to go to woolies, you&apos;re going to <span className={emphasisTextStyle}>{wooliesChoice}</span></h1>
+          </div>
+        )
+      }
+      return (
+        <div className={bodyStyle}>
+          <h1 className={bodyTextStyle}>You&apos;re going to <span className={emphasisTextStyle}>{standardChoice}</span> for lunch.</h1>
         </div>
       )
     }
-    return (
-      <div className={bodyStyle}>
-        <h1 className={bodyTextStyle}>You&apos;re going to <span className={emphasisTextStyle}>{standardChoice}</span> for lunch.</h1>
-      </div>
-    )
   }
 
   return (

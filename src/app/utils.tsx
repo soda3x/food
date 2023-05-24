@@ -36,13 +36,9 @@ export async function getDecision(): Promise<Map<string, string>> {
     let choices: string = await fetchFileContents(process.env.REACT_APP_CHOICES_URL!);
     const wooliesChoices: string = await fetchFileContents(process.env.REACT_APP_CHOICES_WOOLIES_URL!);
     choices = choices + '\n' + wooliesChoices
-    if (getHumorousDayName() == 'Catalina day') {
-        res.set('standard', 'Catalina (let me eat ya)');
-    } else {
-        res.set('standard', choose(choices, '\n'));
-        if (!wooliesChoices.includes(res.get('standard')!)) {
-            res.set('woolies', choose(wooliesChoices, '\n'));
-        }
+    res.set('standard', choose(choices, '\n'));
+    if (!wooliesChoices.includes(res.get('standard')!)) {
+        res.set('woolies', choose(wooliesChoices, '\n'));
     }
     return res;
 }
