@@ -13,6 +13,7 @@ const nextConfig = {
         REACT_APP_SERVERLESS: <true-or-false>,
         REACT_APP_CHOICES_URL: <url-here>,
         REACT_APP_CHOICES_WOOLIES_URL: <url-here>
+        REACT_APP_TAGLINES_URL: <url-here>
     }
 }
 ```

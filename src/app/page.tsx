@@ -5,10 +5,13 @@ import { useState, useEffect } from 'react';
 
 export default function Home() {
 
-  let [standardChoice, setStandardChoice] = useState("Loading...");
-  let [wooliesChoice, setWooliesChoice] = useState("Loading...");
+  let [standardChoice, setStandardChoice] = useState("Deciding...");
+  let [wooliesChoice, setWooliesChoice] = useState("Deciding...");
+  let [tagline, setTagline] = useState("Loading...")
 
   useEffect(() => {
+    getTagline().then(t => setTagline(t));
+
     if (process.env.REACT_APP_SERVERLESS == "true") {
       getDecision().then(decision => {
         setStandardChoice(decision.get('standard')!);
@@ -38,7 +41,7 @@ export default function Home() {
   const bodyStyle: string = "max-w-md border-2 border-stone-800 bg-white p-10";
 
   function createBodyText() {
-    if (wooliesChoice != 'Loading...') {
+    if (wooliesChoice != 'Deciding...') {
       return (
         <div className={bodyStyle}>
           <h1 className={bodyTextStyle}>You&apos;re going to <span className={emphasisTextStyle}>{standardChoice}</span> for lunch, unless you need to go to woolies.</h1>
@@ -58,7 +61,7 @@ export default function Home() {
 
       <div className="text-center">
         <h1 className={titleStyle}>Food Decision Making Machine</h1>
-        <h2 className={taglineStyle}>{getTagline()}</h2>
+        <h2 className={taglineStyle}>{tagline}</h2>
       </div>
 
       <div className="flex-col items-center text-center p-10">
